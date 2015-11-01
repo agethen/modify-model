@@ -1,0 +1,9 @@
+*
+!.gitignore
+!readme.md
+!*.cc
+!*.hh
+!Makefile
+!Makefile.config
+!*/
+
