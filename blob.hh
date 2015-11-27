@@ -6,6 +6,13 @@
 #include <memory>
 #include <caffe/proto/caffe.pb.h>
 
+
+#define FLAG_ZERO	 		0x00
+#define FLAG_AVERAGE	0x01
+#define FLAG_REPEAT		0x02
+
+#define FLAG_RGB			0x10
+
 template <typename Dtype>
 class BlobHandler{
 	public:
@@ -31,7 +38,7 @@ class BlobHandler{
 			data_ = std::move( data );
 		}
 
-		inline void fromBlob( caffe::BlobProto * );
+		void fromBlob( caffe::BlobProto * );
 
 		inline caffe::BlobProto * blob(){
 			if( !blob_ )
@@ -40,15 +47,18 @@ class BlobHandler{
 			this->update();
 			return blob_;
 		}
+		void update();
 
 		void zero();
 		void random( float, float );
 
 		void readWithShape( std::shared_ptr<std::vector<Dtype>>, std::vector<int> );
-
+		
 		inline void readFrom( BlobHandler & b ){
 			b.readWithShape( this->data(), this->shape() );
 		}
+
+		void inflateAlongAxis( int axis, int new_value, int flag );
 
 		void print();
 		void print( std::vector<int> );
@@ -56,7 +66,10 @@ class BlobHandler{
 		void recursiveRead( std::shared_ptr<std::vector<Dtype>>, std::shared_ptr<std::vector<Dtype>>,
 					 int, int, std::vector<int>, std::vector<int> );
 		void recursivePrint( int, std::vector<int> );
-		void update();
+		void repeatPattern( std::shared_ptr<std::vector<Dtype>>, std::shared_ptr<std::vector<Dtype>>, int64_t, int64_t );
+
+		std::vector<int> parseShape();
+		void setBlobShape();
 
 		std::vector<int> shape_;
 
