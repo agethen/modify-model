@@ -62,6 +62,7 @@ class BlobHandler{
 
 		void print();
 		void print( std::vector<int> );
+
 	private:
 		void recursiveRead( std::shared_ptr<std::vector<Dtype>>, std::shared_ptr<std::vector<Dtype>>,
 					 int, int, std::vector<int>, std::vector<int> );

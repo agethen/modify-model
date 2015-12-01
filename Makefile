@@ -1,8 +1,9 @@
-CXX := g++ -std=c++11 -g
+CXX := g++ -std=c++11 -g -Wall
 CAFFE := /home/teq/Desktop/caffe/caffe
-LIB := $(CAFFE)/build/lib
-INCLUDE := $(CAFFE)/build/src/
+LIB := -L$(CAFFE)/build/lib
+INCLUDE := -I$(CAFFE)/build/src/ -Iinclude/
 all:
-	$(CXX) -c blob.cc -I$(INCLUDE) -I./
-	$(CXX) -c modify.cc -I$(INCLUDE) -I./
-	$(CXX) -o modify modify.o blob.o -L$(LIB) -lcaffe -lprotobuf
+	$(CXX) -c src/blob.cc $(INCLUDE)
+	$(CXX) -c src/view.cc $(INCLUDE)
+	$(CXX) -c src/modify.cc $(INCLUDE)
+	$(CXX) -o modify modify.o blob.o view.o $(LIB) -lcaffe -lprotobuf
