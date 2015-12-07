@@ -31,11 +31,15 @@ void BlobHandler<Dtype>::update(){
 
 	setBlobShape();	
 
-	int s = this->size();
+	auto tmp_data = data_;
+
+	while( tmp_data->size() < size() )
+		tmp_data->push_back( 0.0 );
+
 	blob_->clear_data();
 
-	for( int i = 0; i < s; i++ )
-		blob_->add_data( 0 );
+	for( auto e : *tmp_data )
+		blob_->add_data( e );
 }
 
 template <typename Dtype>
@@ -233,6 +237,7 @@ void BlobHandler<Dtype>::inflateAlongAxis( int axis, int new_value, int flag = F
 				Dtype val = pattern->at( i ) + pattern->at( len+i ) + pattern->at( 2*len + i );
 				tmp_pattern->push_back( val/3.0 );
 			}
+			pattern = tmp_pattern;
 		}
 
 		repeatPattern( pattern, tmp_data, i*blocksize*new_value, ( (flag & FLAG_RGB) && !(flag & FLAG_AVERAGE) )?new_value/3:new_value );

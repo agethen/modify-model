@@ -103,34 +103,34 @@ int main( int argc, char ** argv ){
 	loadNetwork<caffe::NetParameter>( input_filename, &net );
 
 	if( flag_view ){
-		viewNetwork( net, 0, 10 );
+		viewNetwork( net );
 		return EXIT_SUCCESS;
 	}
 
 	BlobHandler<float> weights, bias;
 	
-	if( !loadLayerBlobs<float>( "conv1_1", net, weights, bias ) )
+	if( !loadLayerBlobs<float>( "conv1", net, weights, bias ) )
 		return EXIT_FAILURE;
 
-  {
+	{
 		// Application: Repeat channel
 		// Note that this does not automatically adjust biases or previous/following layers
-		// weights.inflateAlongAxis( 1, 30, FLAG_RGB & FLAG_REPEAT );	// Increase the dimension of axis 1 to 30, expecting RGB information to be repeated
-		// weights.update();																						// Commit changes
+		weights.inflateAlongAxis( 1, 20, FLAG_RGB | FLAG_AVERAGE | FLAG_REPEAT );	// Increase the dimension of axis 1 to 30, expecting RGB information to be repeated
+		weights.update();																						// Commit changes
 	}
 
 	{
 		// Application: Reduce Dimension
 		// When removing data, we do not need to care about repeating or averaging information.
 		// Instead we can simply specify the new shape and read it with readWithShape().
-		auto data = std::shared_ptr<std::vector<float>>( new std::vector<float>() );
+		// auto data = std::shared_ptr<std::vector<float>>( new std::vector<float>() );
 
-		std::vector<int> ns = weights.shape();
-		ns[1] = 1;
+		// std::vector<int> ns = weights.shape();
+		// ns[1] = 1;
 
-		weights.readWithShape( data, ns );
-		weights.setData( data, ns );
-		weights.update();
+		// weights.readWithShape( data, ns );
+		// weights.setData( data, ns );
+		// weights.update();
 	}
 
 	saveNetwork( output_filename, net );

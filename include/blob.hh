@@ -7,9 +7,9 @@
 #include <caffe/proto/caffe.pb.h>
 
 
-#define FLAG_ZERO	 		0x00
-#define FLAG_AVERAGE	0x01
-#define FLAG_REPEAT		0x02
+#define FLAG_ZERO	 		0x01
+#define FLAG_AVERAGE	0x02
+#define FLAG_REPEAT		0x04
 
 #define FLAG_RGB			0x10
 
