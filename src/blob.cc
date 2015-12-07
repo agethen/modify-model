@@ -234,7 +234,7 @@ void BlobHandler<Dtype>::inflateAlongAxis( int axis, int new_value, int flag = F
 			auto tmp_pattern = std::shared_ptr<std::vector<Dtype>>( new std::vector<Dtype>() );
 			int len = pattern->size()/3;
 			for( int j = 0; j < len; j++ ){
-				Dtype val = pattern->at( i ) + pattern->at( len+i ) + pattern->at( 2*len + i );
+				Dtype val = pattern->at( j ) + pattern->at( len+j ) + pattern->at( 2*len + j );
 				tmp_pattern->push_back( val/3.0 );
 			}
 			pattern = tmp_pattern;
@@ -251,6 +251,7 @@ void BlobHandler<Dtype>::repeatPattern( std::shared_ptr<std::vector<Dtype>> patt
 	while( data->size() < offset )
 		data->push_back( 0.0 );
 
+// TODO: Correctly saving data
 	for( int64_t i = 0; i < times; i++)
 		for( auto e : *pattern )
 			data->push_back( e );
