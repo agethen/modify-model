@@ -6,9 +6,11 @@ This tool opens a caffemodel (V2) file, and changes the shape of specified layer
 Missing data maybe repeated or averaged from existing channels, extraneous data will be deleted.
 
 Usage example for modification:
-modify --input <filename> --output <filename>
+
+modify --input input.caffemodel --output output.caffemodel
 
 Usage example for simply printing layers:
-modify --input <filename> --view
+
+modify --input input.caffemodel --view
 
 No guarantees are given ;)
